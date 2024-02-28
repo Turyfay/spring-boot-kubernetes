@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daenamorado.msvc.usuarios.msvcusuarios.models.entity.usuario;
 import com.daenamorado.msvc.usuarios.msvcusuarios.services.UsuarioService;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,6 +64,16 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(usuarioDb));
         }
 
+        return ResponseEntity.notFound().build();   
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Optional<usuario> o = service.getById(id);
+        if (o.isPresent()){
+            service.delete(id);
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.notFound().build();
     }
 
