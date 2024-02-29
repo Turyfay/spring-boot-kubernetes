@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.daenamorado.msvc.cursos.msvccursos.entity.Curso;
 import com.daenamorado.msvc.cursos.msvccursos.repositories.CursoRepository;
@@ -14,26 +15,27 @@ public class CursoServiceImpl implements CursoService {
     private CursoRepository cursoRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Curso> getAll() {
         return (List<Curso>) cursoRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Curso> getById(Long Id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+        return cursoRepository.findById(Id);
     }
 
     @Override
+    @Transactional
     public Curso guardar(Curso curso) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'guardar'");
+        return cursoRepository.save(curso);
     }
 
     @Override
+    @Transactional
     public void delete(Long Id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        cursoRepository.deleteById(Id);
     }
 
 }
